@@ -10,72 +10,105 @@ import android.widget.EditText;
 import androidx.annotation.RequiresApi;
 
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 public class DatabaseHandler {
 
-    private static SQLiteDatabase _sqLiteDatabase;
-    private  DBHelper _dbHelper;
+    public static SQLiteDatabase sqLiteDatabase;
+    public static  DBHelper dbHelper;
     private  Date _dateTime;
 
 
     public DatabaseHandler(DBHelper dbHelper){
-        _dbHelper = dbHelper;
+        DatabaseHandler.dbHelper = dbHelper;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void insertData(EditText addName, EditText addId){
 
-        _sqLiteDatabase = _dbHelper.getWritableDatabase();
+        sqLiteDatabase = dbHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         String full_name = addName.getText().toString();
-        String id = addId.getText().toString();
+        /*String id = addId.getText().toString();*/
 
         _dateTime = new Date();
-        String utcTime = DateTimeHandler.localTimeToUtc(_dateTime);
+        long utcTime = DateTimeHandler.localTimeToUtc(_dateTime);
 
         contentValues.put(DBHelper.KEY_FULL_NAME, full_name);
-        contentValues.put(DBHelper.KEY_ID, id);
+        /*contentValues.put(DBHelper.KEY_ID, id);*/
         contentValues.put(DBHelper.KEY_DATE, utcTime);
 
-        _sqLiteDatabase.insert(DBHelper.TABLE_CLASSMATES, null, contentValues);
+        sqLiteDatabase.insert(DBHelper.TABLE_CLASSMATES, null, contentValues);
+    }
+
+    public void updateLastRecord() throws ParseException {
+        sqLiteDatabase = dbHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(DBHelper.KEY_FULL_NAME, "Іванов Іван Іванович");
+        String orderBy = DBHelper.KEY_DATE+" ASC ";
+        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_CLASSMATES, null, null, null,
+                null, null, orderBy);
+        cursor.moveToLast();
+
+
+        int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
+        int nameIndex = cursor.getColumnIndex(DBHelper.KEY_FULL_NAME);
+        int timeIndex = cursor.getColumnIndex(DBHelper.KEY_DATE);
+
+        int updCount = sqLiteDatabase.update(DBHelper.TABLE_CLASSMATES, contentValues,
+                DBHelper.KEY_DATE + "= ?", new String[] {cursor.getString(timeIndex)});
+
+        String str = cursor.getString(timeIndex);       //????? чого тут стрінг?
+        Date date = DateTimeHandler.utcToLocalTime(Long.parseLong(str));
+        String localTime = DateTimeHandler.getDateFormat(date);
+
+        Log.d("mLog", "ID = " + cursor.getInt(idIndex) +
+                ", name = " + cursor.getString(nameIndex) +
+                ", time = " + localTime);
     }
 
 
-    public static void readData(DBHelper dbHelper) throws ParseException {
-        _sqLiteDatabase = dbHelper.getWritableDatabase();
+    public void readData(DBHelper dbHelper) throws ParseException {
 
-        Cursor cursor = _sqLiteDatabase.query(DBHelper.TABLE_CLASSMATES, null, null,null,null, null, null);
+        sqLiteDatabase = dbHelper.getWritableDatabase();
+
+       /* Cursor cursor1 = _sqLiteDatabase.query(DBHelper.TABLE_CLASSMATES, null, null, null, null, null, null);*/
+
+        String orderBy = DBHelper.KEY_DATE+" ASC ";
+
+        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_CLASSMATES, null, null, null,
+                null, null, orderBy);
+
         if (cursor.moveToFirst()) {
             int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
             int nameIndex = cursor.getColumnIndex(DBHelper.KEY_FULL_NAME);
             int timeIndex = cursor.getColumnIndex(DBHelper.KEY_DATE);
 
 
-            do {
+         do {
+                String str = cursor.getString(timeIndex);       //????? чого тут стрінг?
+                Date date = DateTimeHandler.utcToLocalTime(Long.parseLong(str));
+                String localTime = DateTimeHandler.getDateFormat(date);
 
-                String utcTime = cursor.getString(timeIndex);
-                Date utcToLocal = DateTimeHandler.utcToLocalTime(utcTime);
-                String localTime = DateTimeHandler.getDateFormat(utcToLocal);
-                    Log.d("mLog", "ID = " + cursor.getInt(idIndex) +
+
+                Log.d("mLog", "ID = " + cursor.getInt(idIndex) +
                             ", name = " + cursor.getString(nameIndex) +
                             ", time = " + localTime);
             }while (cursor.moveToNext());
 
         } else
-            Log.d("mLog","0 rows");
+            Log.d("mLog", "0 rows");
 
-        cursor.close();
-    }
+            cursor.close();
+        }
 
-    public void deleteData(){
+
+
+   /* public void deleteData(){
         _sqLiteDatabase.delete(DBHelper.TABLE_CLASSMATES, null, null);
-    }
+    }*/
 
 }

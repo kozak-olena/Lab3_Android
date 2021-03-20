@@ -16,20 +16,22 @@ public class DateTimeHandler {
         return dateFormat.format(dateTime);
     }
 
-    public static String localTimeToUtc(Date date) {
+    public static long localTimeToUtc(Date date) {
         String timeZone = Calendar.getInstance().getTimeZone().getID();
         Date utc = new Date(date.getTime() - TimeZone.getTimeZone(timeZone).getOffset(date.getTime()));
-        String utcTime = getDateFormat(utc);
-        return utcTime;
+        long millis = utc.getTime();
+        /*String utcTime = getDateFormat(utc);*/
+        return millis;
     }
 
-    public static Date utcToLocalTime(String utcTime) throws ParseException {
-        Date utcDateTime = new SimpleDateFormat(DATE_FORMAT).parse(utcTime);
+    public static Date utcToLocalTime(long utcTime) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
+        String dateString = formatter.format(new Date(utcTime)).toString();
+        Date utcDateTime = new SimpleDateFormat(DATE_FORMAT).parse(dateString);
         String timeZone = Calendar.getInstance().getTimeZone().getID();
         Date local = new Date(utcDateTime.getTime() + TimeZone.getTimeZone(timeZone).getOffset(utcDateTime.getTime()));
 
         return local;
-
     }
 
-}
+   }

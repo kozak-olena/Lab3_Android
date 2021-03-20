@@ -30,8 +30,8 @@ public class Activity_Read extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         try {
-
-            DatabaseHandler.readData(dbHelper);
+            DatabaseHandler databaseHandler = new DatabaseHandler(dbHelper);
+            databaseHandler.readData(dbHelper);
         } catch (ParseException e) {
             e.printStackTrace();
         }

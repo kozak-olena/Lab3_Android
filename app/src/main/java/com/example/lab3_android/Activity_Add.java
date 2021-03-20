@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.text.ParseException;
+
 public class Activity_Add extends AppCompatActivity implements View.OnClickListener {
 
     Button btn_add;
@@ -26,7 +28,7 @@ public class Activity_Add extends AppCompatActivity implements View.OnClickListe
         btn_add = (Button) findViewById(R.id.btnAdd);
         btn_add.setOnClickListener(this);
 
-        add_id = (EditText) findViewById(R.id.classmates_id);
+        /*add_id = (EditText) findViewById(R.id.classmates_id);*/
         add_name = (EditText) findViewById(R.id.classmates_name);
 
         dbHelper = new DBHelper(this);
@@ -37,5 +39,6 @@ public class Activity_Add extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         DatabaseHandler databaseHandler = new DatabaseHandler(dbHelper);
         databaseHandler.insertData(add_name,add_id);
+
     }
 }

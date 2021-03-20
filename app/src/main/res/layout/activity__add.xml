@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/classmates_id"
+        android:visibility="invisible"
         android:hint="ID">
     </EditText>
 
@@ -29,6 +30,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add"
+            android:layout_marginLeft="10dp">
+        </Button>
+        <Button
+            android:id="@+id/btnChange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change"
             android:layout_marginLeft="10dp">
         </Button>
     </LinearLayout>
