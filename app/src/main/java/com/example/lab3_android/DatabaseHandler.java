@@ -4,31 +4,34 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
-import android.util.Log;
 import android.widget.EditText;
 
 import androidx.annotation.RequiresApi;
 
 
-import java.text.ParseException;
 import java.util.Date;
 
 public class DatabaseHandler {
 
     public static SQLiteDatabase sqLiteDatabase;
-    public static DBHelper dbHelper;
+    public static DBHelper _dbHelper;
     private Date _dateTime;
     private ContentValues _contentValues;
     private Cursor _cursor;
 
 
     public DatabaseHandler(DBHelper dbHelper) {
-        DatabaseHandler.dbHelper = dbHelper;
-        sqLiteDatabase = dbHelper.getWritableDatabase();
+        _dbHelper = dbHelper;
+        sqLiteDatabase = _dbHelper.getWritableDatabase();
         _contentValues = new ContentValues();
 
+        /*cursor = getSortedData();*/
+    }
+
+    public Cursor getSortedData() {
         _cursor = sqLiteDatabase.query(DBHelper.TABLE_CLASSMATES, null, null, null,
                 null, null, DBHelper.KEY_DATE + " ASC ");
+        return _cursor;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)            //TODO:???
@@ -47,6 +50,7 @@ public class DatabaseHandler {
 
     public void updateLastRecord() {
         _contentValues.put(DBHelper.KEY_FULL_NAME, "Іванов Іван Іванович");
+        _cursor = getSortedData();
 
         _cursor.moveToLast();
         int timeIndex = _cursor.getColumnIndex(DBHelper.KEY_DATE);
@@ -55,29 +59,29 @@ public class DatabaseHandler {
     }
 
 
-    public void readData() throws ParseException {
+    public Cursor readData() {
 
-            if (_cursor.moveToFirst()) {
-            int idIndex = _cursor.getColumnIndex(DBHelper.KEY_ID);
-            int nameIndex = _cursor.getColumnIndex(DBHelper.KEY_FULL_NAME);
-            int timeIndex = _cursor.getColumnIndex(DBHelper.KEY_DATE);
+        return getSortedData();
+         /*   if (cursor.moveToFirst()) {
+            int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
+            int nameIndex = cursor.getColumnIndex(DBHelper.KEY_FULL_NAME);
+            int timeIndex = cursor.getColumnIndex(DBHelper.KEY_DATE);
 
 
             do {
-                String localTime = DateTimeHandler.utcToLocalTime(_cursor, timeIndex);
+                String localTime = DateTimeHandler.utcToLocalTime(cursor, timeIndex);
 
-                Log.d("mLog", "ID = " + _cursor.getInt(idIndex) +
-                        ", name = " + _cursor.getString(nameIndex) +
+                Log.d("mLog", "ID = " + cursor.getInt(idIndex) +
+                        ", name = " + cursor.getString(nameIndex) +
                         ", time = " + localTime);
-            } while (_cursor.moveToNext());
+            } while (cursor.moveToNext());
 
         } else
             Log.d("mLog", "0 rows");
-        _cursor.close();
+        cursor.close();*/
     }
 
    /* public void deleteData(){
         _sqLiteDatabase.delete(DBHelper.TABLE_CLASSMATES, null, null);
     }*/
-
 }

@@ -2,7 +2,7 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/tableLayout1"
+    android:id="@+id/tableLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:shrinkColumns="*"
@@ -12,7 +12,7 @@
 
 
     <TableRow
-        android:id="@+id/tableRow"
+        android:id="@+id/tableRow_0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal">
@@ -31,44 +31,29 @@
     </TableRow>
 
     <TableRow
-        android:id="@+id/tableRow1"
+        android:id="@+id/tableRow_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" android:paddingTop="10dp">
 
         <TextView
             android:id="@+id/TextView04"
-            android:text="ID"
+            android:text="@string/ID"
             android:textStyle="bold"
             android:typeface="serif" >
         </TextView>
 
         <TextView
             android:id="@+id/TextView03"
-            android:text="FULL NAME"
+            android:text="@string/FULL_NAME"
             android:textStyle="bold"
             android:typeface="serif" >
         </TextView>
 
         <TextView
             android:id="@+id/TextView02"
-            android:text="DATETIME"
+            android:text="@string/DATETIME"
             android:textStyle="bold"
             android:typeface="serif" >
         </TextView>
     </TableRow>
-    <LinearLayout>
-    <Button
-        android:id="@+id/readBtn"
-        android:layout_height="50dp"
-        android:layout_width="wrap_content"
-        android:text="Read">
-    </Button>
-        <Button
-            android:id="@+id/clearBtn"
-            android:layout_height="50dp"
-            android:layout_width="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="Clear">
-        </Button>
-    </LinearLayout>
-</TableLayout>
+   </TableLayout>
