@@ -12,7 +12,8 @@ public class Activity_Read extends AppCompatActivity implements View.OnClickList
 
     Button btn_read, btn_clear;
 
-    DBHelper dbHelper;
+    private DBHelper _dbHelper;
+    private DatabaseHandler _databaseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,14 +25,16 @@ public class Activity_Read extends AppCompatActivity implements View.OnClickList
 
         btn_clear = (Button) findViewById(R.id.clearBtn);
         btn_clear.setOnClickListener(this);
-        dbHelper = new DBHelper(this);
+        _dbHelper = new DBHelper(this);
+
+        _databaseHandler = new DatabaseHandler(_dbHelper);
     }
 
     @Override
     public void onClick(View v) {
         try {
-            DatabaseHandler databaseHandler = new DatabaseHandler(dbHelper);
-            databaseHandler.readData(dbHelper);
+
+            _databaseHandler.readData();
         } catch (ParseException e) {
             e.printStackTrace();
         }

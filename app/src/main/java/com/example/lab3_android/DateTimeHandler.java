@@ -1,5 +1,7 @@
 package com.example.lab3_android;
 
+import android.database.Cursor;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,19 +21,19 @@ public class DateTimeHandler {
     public static long localTimeToUtc(Date date) {
         String timeZone = Calendar.getInstance().getTimeZone().getID();
         Date utc = new Date(date.getTime() - TimeZone.getTimeZone(timeZone).getOffset(date.getTime()));
-        long millis = utc.getTime();
-        /*String utcTime = getDateFormat(utc);*/
-        return millis;
+        long millisUtc = utc.getTime();
+        return millisUtc;
     }
 
-    public static Date utcToLocalTime(long utcTime) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
-        String dateString = formatter.format(new Date(utcTime)).toString();
-        Date utcDateTime = new SimpleDateFormat(DATE_FORMAT).parse(dateString);
+    public static String utcToLocalTime(Cursor cursor, int timeIndex) throws ParseException {
+        long uctMillis = cursor.getLong(timeIndex);
+        Date utcDateTime = new Date(uctMillis);
+
         String timeZone = Calendar.getInstance().getTimeZone().getID();
         Date local = new Date(utcDateTime.getTime() + TimeZone.getTimeZone(timeZone).getOffset(utcDateTime.getTime()));
 
-        return local;
+        String localTime = getDateFormat(local);
+        return localTime;
     }
 
    }
