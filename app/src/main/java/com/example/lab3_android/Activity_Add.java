@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class Activity_Add extends AppCompatActivity implements View.OnClickListener {
 
@@ -27,6 +29,7 @@ public class Activity_Add extends AppCompatActivity implements View.OnClickListe
 
         add_name = (EditText) findViewById(R.id.classmates_name);
 
+
         _dbHelper = new DBHelper(this);
         _databaseHandler = new DatabaseHandler(_dbHelper);
     }
@@ -36,6 +39,7 @@ public class Activity_Add extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
 
         _databaseHandler.insertData(add_name);
+
 
     }
 }

@@ -22,7 +22,9 @@ public class DatabaseHandler {
 
     public DatabaseHandler(DBHelper dbHelper) {
         _dbHelper = dbHelper;
+
         sqLiteDatabase = _dbHelper.getWritableDatabase();
+
         _contentValues = new ContentValues();
     }
 
@@ -44,6 +46,8 @@ public class DatabaseHandler {
         _contentValues.put(DBHelper.KEY_DATE, utcTime);
 
         sqLiteDatabase.insert(DBHelper.TABLE_CLASSMATES, null, _contentValues);
+
+
     }
 
     public void updateLastRecord() {
@@ -56,9 +60,7 @@ public class DatabaseHandler {
                 DBHelper.KEY_DATE + "= ?", new String[]{_cursor.getString(timeIndex)});
     }
 
-
     public Cursor readData() {
-
         return getSortedData();
     }
 }

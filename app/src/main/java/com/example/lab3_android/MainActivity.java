@@ -10,9 +10,8 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button btnChange;
+    Button btnChange, btnAdd, btnRead;
     DBHelper dbHelper;
-    Cursor cursor;
     DatabaseHandler databaseHandler;
 
     @Override
@@ -20,16 +19,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         btnChange = (Button) findViewById(R.id.btn3);
         btnChange.setOnClickListener(this);
+
+        btnAdd = (Button) findViewById(R.id.btn1);
+        btnAdd.setOnClickListener(this);
+
+        btnRead = (Button) findViewById(R.id.btn2);
+        btnRead.setOnClickListener(this);
+
         dbHelper = new DBHelper(this);
         databaseHandler = new DatabaseHandler(dbHelper);
 
+        DatabaseHandler.sqLiteDatabase.delete(DBHelper.TABLE_CLASSMATES, null, null);
     }
 
     public void openContactsTable(View view) {
         Intent intent = new Intent(this, Activity_Read.class);
-
         startActivity(intent);
     }
 
@@ -41,7 +49,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
-        databaseHandler.updateLastRecord();
+        switch (v.getId()) {
+            case R.id.btn1:
+                openContactsTable(v);
+                break;
+
+            case R.id.btn2:
+                openAddActivity(v);
+
+                break;
+
+            case R.id.btn3:
+                databaseHandler.updateLastRecord();
+                break;
+        }
 
     }
 }
