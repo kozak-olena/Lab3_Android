@@ -11,9 +11,9 @@ import java.util.TimeZone;
 
 public class DateTimeHandler {
 
-    private static final String DATE_FORMAT = "yyyy-mm-dd hh:mm:ss";
+    private static final String DATE_FORMAT = "dd-mm-yyyy hh:mm:ss";
 
-    public static String getDateFormat(Date dateTime){
+    public static String getDateFormat(Date dateTime) {
         DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
         return dateFormat.format(dateTime);
     }
@@ -25,7 +25,7 @@ public class DateTimeHandler {
         return millisUtc;
     }
 
-    public static String utcToLocalTime(Cursor cursor, int timeIndex){
+    public static String utcToLocalTime(Cursor cursor, int timeIndex) {
         long uctMillis = cursor.getLong(timeIndex);
         Date utcDateTime = new Date(uctMillis);
 
@@ -36,4 +36,4 @@ public class DateTimeHandler {
         return localTime;
     }
 
-   }
+}

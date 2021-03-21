@@ -24,8 +24,6 @@ public class DatabaseHandler {
         _dbHelper = dbHelper;
         sqLiteDatabase = _dbHelper.getWritableDatabase();
         _contentValues = new ContentValues();
-
-        /*cursor = getSortedData();*/
     }
 
     public Cursor getSortedData() {
@@ -62,26 +60,5 @@ public class DatabaseHandler {
     public Cursor readData() {
 
         return getSortedData();
-         /*   if (cursor.moveToFirst()) {
-            int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
-            int nameIndex = cursor.getColumnIndex(DBHelper.KEY_FULL_NAME);
-            int timeIndex = cursor.getColumnIndex(DBHelper.KEY_DATE);
-
-
-            do {
-                String localTime = DateTimeHandler.utcToLocalTime(cursor, timeIndex);
-
-                Log.d("mLog", "ID = " + cursor.getInt(idIndex) +
-                        ", name = " + cursor.getString(nameIndex) +
-                        ", time = " + localTime);
-            } while (cursor.moveToNext());
-
-        } else
-            Log.d("mLog", "0 rows");
-        cursor.close();*/
     }
-
-   /* public void deleteData(){
-        _sqLiteDatabase.delete(DBHelper.TABLE_CLASSMATES, null, null);
-    }*/
 }

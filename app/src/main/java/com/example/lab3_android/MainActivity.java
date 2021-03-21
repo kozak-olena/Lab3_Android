@@ -22,14 +22,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnChange = (Button) findViewById(R.id.btn3);
         btnChange.setOnClickListener(this);
-
-
-
         dbHelper = new DBHelper(this);
-
         databaseHandler = new DatabaseHandler(dbHelper);
-       /* cursor = databaseHandler._cursor;*/
-
 
     }
 
@@ -47,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
-        DatabaseHandler databaseHandler = new DatabaseHandler(dbHelper);
         databaseHandler.updateLastRecord();
 
     }
